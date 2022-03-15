@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.TreeMap;
+
 @SpringBootApplication
 @RestController
 public class JavaTestSynalogikApplication {
@@ -15,8 +20,20 @@ public class JavaTestSynalogikApplication {
     }
 
     @GetMapping("/word-counter")
-    public String sayHello(@RequestParam(value = "myName", defaultValue = "World") String name) {
-       return String.format("Hello %s!", name);
+    public String generateOutputFromURL(@RequestParam(value = "url", defaultValue = "No URL Detected, please try again.") String urlInput) {
+        try {
+            //Generate a new WordsModel object, and generate a WordsModel based on a given URL, return the string of words model to the user on frontend.
+            URL url = new URL(urlInput);
+            WordsModel wordsModel = outputGenerator.generateWordsModel(url);
+            return wordsModel.toString();
+        }
+        catch (IOException ex)
+        {
+            return null;
+        }
+
+
     }
+
 
 }
